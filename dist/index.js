@@ -69,7 +69,7 @@ function rule34(tags) {
                         }); }))];
                 case 3:
                     result = _a.sent();
-                    return [2 /*return*/, [].concat.apply([], result.map(function (d) { return d.images; }))];
+                    return [2 /*return*/, [].concat.apply([], result.map(function (d) { return d.images; })).concat(res.images)];
             }
         });
     });
