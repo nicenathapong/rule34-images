@@ -50,16 +50,19 @@ function rule34(tags) {
             }
             return links;
         }
-        var data, res, result;
+        var data, isHave, res, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, axios_1.default.get("https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1000&pid=0&tags=".concat(tags))];
                 case 1:
                     data = (_a.sent()).data;
-                    if (!data)
-                        return [2 /*return*/, null];
-                    return [4 /*yield*/, praseResult(data)];
+                    return [4 /*yield*/, new Promise(function (resolve) { return (0, xml2js_1.parseString)(data, function (err, prase) { return prase.posts.$.count === '0' ? resolve(false) : resolve(true); }); })];
                 case 2:
+                    isHave = _a.sent();
+                    if (!isHave)
+                        return [2 /*return*/, []];
+                    return [4 /*yield*/, praseResult(data)];
+                case 3:
                     res = _a.sent();
                     if (res.length < 1000)
                         return [2 /*return*/, res.images];
@@ -67,7 +70,7 @@ function rule34(tags) {
                             var data = _a.data;
                             return praseResult(data);
                         }); }))];
-                case 3:
+                case 4:
                     result = _a.sent();
                     return [2 /*return*/, [].concat.apply([], result.map(function (d) { return d.images; })).concat(res.images)];
             }
