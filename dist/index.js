@@ -50,28 +50,48 @@ function rule34(tags) {
             }
             return links;
         }
-        var data, isHave, res, result;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, axios_1.default.get("https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1000&pid=0&tags=".concat(tags))];
+        var result_1, _i, tags_1, _, _a, _b, data, isHave, res, result;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    if (!Array.isArray(tags) && typeof tags !== 'string')
+                        return [2 /*return*/, []];
+                    if (!Array.isArray(tags)) return [3 /*break*/, 5];
+                    result_1 = {};
+                    _i = 0, tags_1 = tags;
+                    _c.label = 1;
                 case 1:
-                    data = (_a.sent()).data;
-                    return [4 /*yield*/, new Promise(function (resolve) { return (0, xml2js_1.parseString)(data, function (err, prase) { return prase.posts.$.count === '0' ? resolve(false) : resolve(true); }); })];
+                    if (!(_i < tags_1.length)) return [3 /*break*/, 4];
+                    _ = tags_1[_i];
+                    _a = result_1;
+                    _b = _;
+                    return [4 /*yield*/, rule34(_)];
                 case 2:
-                    isHave = _a.sent();
+                    _a[_b] = _c.sent();
+                    _c.label = 3;
+                case 3:
+                    _i++;
+                    return [3 /*break*/, 1];
+                case 4: return [2 /*return*/, result_1];
+                case 5: return [4 /*yield*/, axios_1.default.get("https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&limit=1000&pid=0&tags=".concat(tags))];
+                case 6:
+                    data = (_c.sent()).data;
+                    return [4 /*yield*/, new Promise(function (resolve) { return (0, xml2js_1.parseString)(data, function (err, prase) { return prase.posts.$.count === '0' ? resolve(false) : resolve(true); }); })];
+                case 7:
+                    isHave = _c.sent();
                     if (!isHave)
                         return [2 /*return*/, []];
                     return [4 /*yield*/, praseResult(data)];
-                case 3:
-                    res = _a.sent();
+                case 8:
+                    res = _c.sent();
                     if (res.length < 1000)
                         return [2 /*return*/, res.images];
                     return [4 /*yield*/, Promise.all(generateRule34Links().map(function (link) { return axios_1.default.get(link).then(function (_a) {
                             var data = _a.data;
                             return praseResult(data);
                         }); }))];
-                case 4:
-                    result = _a.sent();
+                case 9:
+                    result = _c.sent();
                     return [2 /*return*/, [].concat.apply([], result.map(function (d) { return d.images; })).concat(res.images)];
             }
         });
